@@ -1,5 +1,5 @@
+// useMacWindow.ts
 "use client";
-
 import {
   animate,
   useDragControls,
@@ -7,31 +7,35 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useDesktop } from "../context/desktop";
 
 export type Rect = { x: number; y: number; w: number; h: number };
 
-type UseMacWindowOpts = {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  initialRect?: Rect;
-  inset?: number; // margin when maximized
-  spring?: { type?: "spring"; bounce?: number; duration?: number };
-};
-
 export default function useMacWindow({
-  containerRef,
+  containerRef: externalRef,
   initialRect = { x: 80, y: 80, w: 720, h: 460 },
-  inset = 16,
+  inset: insetProp,
   spring = { type: "spring", bounce: 0.18, duration: 0.5 },
-}: UseMacWindowOpts) {
-  const dragControls = useDragControls();
+}: {
+  containerRef?: React.RefObject<HTMLDivElement | null>;
+  initialRect?: Rect;
+  inset?: number;
+  spring?: { type?: "spring"; bounce?: number; duration?: number };
+}) {
+  const desktop = useDesktop();
+  const containerRef = externalRef ?? desktop?.containerRef;
+  const inset = insetProp ?? desktop?.inset ?? 16;
 
-  // geometry
+  if (!containerRef) {
+    throw new Error("No containerRef provided and no <MacDesktop> found.");
+  }
+
+  const dragControls = useDragControls();
   const x = useMotionValue(initialRect.x);
   const y = useMotionValue(initialRect.y);
   const w = useMotionValue(initialRect.w);
   const h = useMotionValue(initialRect.h);
 
-  // mirror width/height to state for constraints calc
   const [winSize, setWinSize] = useState({
     w: initialRect.w,
     h: initialRect.h,
@@ -43,7 +47,6 @@ export default function useMacWindow({
     setWinSize((s) => (s.h === val ? s : { ...s, h: val }))
   );
 
-  // container size
   const [containerSize, setContainerSize] = useState({ cw: 0, ch: 0 });
   useEffect(() => {
     const el = containerRef.current;
@@ -56,7 +59,6 @@ export default function useMacWindow({
     return () => ro.disconnect();
   }, [containerRef]);
 
-  // constraints recomputed on changes
   const constraints = useMemo(() => {
     const { cw, ch } = containerSize;
     const { w: ww, h: hh } = winSize;
@@ -75,15 +77,14 @@ export default function useMacWindow({
     };
   }, [containerSize, winSize, inset]);
 
-  const clamp = (val: number, min: number, max: number) =>
-    Math.min(Math.max(val, min), max);
+  const clamp = (v: number, min: number, max: number) =>
+    Math.min(Math.max(v, min), max);
 
-  // keep x/y within constraints whenever constraints update
   useEffect(() => {
     const { left, right, top, bottom } = constraints;
     x.set(clamp(x.get(), left, right));
     y.set(clamp(y.get(), top, bottom));
-  }, [constraints, x, y]);
+  }, [constraints]); // eslint-disable-line
 
   useLayoutEffect(() => {
     const { left, right, top, bottom } = constraints;
@@ -94,21 +95,19 @@ export default function useMacWindow({
 
   const [isMaximized, setIsMaximized] = useState(false);
   const prevRectRef = useRef<Rect>(initialRect);
-
-  const animateRect = (rect: Rect) => {
-    animate(x, rect.x, spring);
-    animate(y, rect.y, spring);
-    animate(w, rect.w, spring);
-    animate(h, rect.h, spring);
+  const animateRect = (r: Rect) => {
+    animate(x, r.x, spring);
+    animate(y, r.y, spring);
+    animate(w, r.w, spring);
+    animate(h, r.h, spring);
   };
 
   const maximize = () => {
     const el = containerRef.current;
     if (!el) return;
     prevRectRef.current = { x: x.get(), y: y.get(), w: w.get(), h: h.get() };
-
-    const cw = el.clientWidth;
-    const ch = el.clientHeight;
+    const cw = el.clientWidth,
+      ch = el.clientHeight;
     animateRect({
       x: inset,
       y: inset,
@@ -117,15 +116,12 @@ export default function useMacWindow({
     });
     setIsMaximized(true);
   };
-
   const restore = () => {
     animateRect(prevRectRef.current);
     setIsMaximized(false);
   };
-
   const toggleMaximize = () => (isMaximized ? restore() : maximize());
 
-  // public API
   return {
     dragControls,
     constraints,
@@ -138,14 +134,12 @@ export default function useMacWindow({
     maximize,
     restore,
     toggleMaximize,
-    setRect: (rect: Partial<Rect>) => {
-      // programmatic move/resize with animation
+    setRect: (rect: Partial<Rect>) =>
       animateRect({
         x: rect.x ?? x.get(),
         y: rect.y ?? y.get(),
         w: rect.w ?? w.get(),
         h: rect.h ?? h.get(),
-      });
-    },
+      }),
   };
 }

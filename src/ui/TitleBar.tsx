@@ -3,7 +3,7 @@
 import * as React from "react";
 import { IoMdClose } from "react-icons/io";
 import { FiMinimize2, FiMaximize2 } from "react-icons/fi";
-import { useMacWindowContext } from "../context/macWindow/context";
+import { useMacWindowContext } from "../context/macWindow";
 
 const BTN =
   "text-white rounded-full p-1 hover:brightness-95 transition duration-200 cursor-pointer";
