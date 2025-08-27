@@ -1,11 +1,10 @@
-// MacWindow.tsx
 "use client";
 import { motion } from "motion/react";
 import clsx from "clsx";
 import useMacWindow, { type Rect } from "../hooks/useMacWindow";
 import { useState } from "react";
-import { useDesktop } from "../context/desktop";
-import MacWindowContext from "../context/macWindow";
+import { useDesktop } from "../context/desktopContext";
+import MacWindowContext from "../context/macWindowContext";
 
 type Props = {
   children: React.ReactNode;

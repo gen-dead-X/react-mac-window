@@ -1,4 +1,3 @@
-// useMacWindow.ts
 "use client";
 import {
   animate,
@@ -7,7 +6,7 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useDesktop } from "../context/desktop";
+import { useDesktop } from "../context/desktopContext";
 
 export type Rect = { x: number; y: number; w: number; h: number };
 

@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import clsx from "clsx";
-import DesktopContext from "../context/desktop";
+import DesktopContext from "../context/desktopContext";
 
 export default function MacDesktop({
   children,
