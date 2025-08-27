@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 
 import MacWindow from "./ui/MacWindow";
 import MacTitleBar from "./ui/TitleBar";
