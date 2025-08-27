@@ -10,9 +10,9 @@ const BTN =
 
 type Props = {
   title?: string;
-  rightSlot?: React.ReactNode; // extra controls on the right
+  rightSlot?: React.ReactNode;
   onClose?: () => void;
-  onMinimize?: () => void; // if you implement a dock, wire it here
+  onMinimize?: () => void;
 };
 
 export default function MacTitleBar({
@@ -21,7 +21,8 @@ export default function MacTitleBar({
   onClose,
   onMinimize,
 }: Props) {
-  const { dragControls, isMaximized, toggleMaximize } = useMacWindowContext();
+  const { dragControls, isMaximized, toggleMaximize, close } =
+    useMacWindowContext();
 
   return (
     <div
@@ -38,6 +39,7 @@ export default function MacTitleBar({
           onClick={(e) => {
             e.stopPropagation();
             onClose?.();
+            close();
           }}
           aria-label="Close"
           title="Close"

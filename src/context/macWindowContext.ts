@@ -14,6 +14,8 @@ type Ctx = {
   toggleMaximize: () => void;
   maximize: () => void;
   restore: () => void;
+  close: () => void;
+  isOpen: boolean;
 };
 
 const MacWindowContext = createContext<Ctx | null>(null);
