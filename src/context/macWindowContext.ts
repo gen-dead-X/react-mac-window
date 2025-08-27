@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { createContext, useContext } from "react";
-import type { DragControls, MotionValue } from "motion/react";
+import type { DragControls, MotionValue } from 'motion/react';
+import { createContext, useContext } from 'react';
 
 type Ctx = {
   dragControls: DragControls;
@@ -24,7 +24,7 @@ export const useMacWindowContext = () => {
   const ctx = useContext(MacWindowContext);
   if (!ctx)
     throw new Error(
-      "useMacWindowContext must be used within <MacWindowProvider>"
+      'useMacWindowContext must be used within <MacWindowProvider>'
     );
   return ctx;
 };

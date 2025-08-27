@@ -1,17 +1,17 @@
-"use client";
-import { AnimatePresence, motion } from "motion/react";
-import clsx from "clsx";
-import useMacWindow, { type Rect } from "../hooks/useMacWindow";
-import { useMemo, useState } from "react";
-import { useDesktop } from "../context/desktopContext";
-import MacWindowContext from "../context/macWindowContext";
+'use client';
+import clsx from 'clsx';
+import { AnimatePresence, motion } from 'motion/react';
+import { useMemo, useState } from 'react';
+import { useDesktop } from '../context/desktopContext';
+import MacWindowContext from '../context/macWindowContext';
+import useMacWindow, { type Rect } from '../hooks/useMacWindow';
 
 type Props = {
   children: React.ReactNode;
   className?: string;
   initialRect?: Rect;
   inset?: number;
-  spring?: { type?: "spring"; bounce?: number; duration?: number };
+  spring?: { type?: 'spring'; bounce?: number; duration?: number };
   containerRef?: React.RefObject<HTMLDivElement | null>;
   open?: boolean;
   defaultOpen?: boolean;
@@ -76,14 +76,14 @@ export default function MacWindow({
             dragMomentum={false}
             style={{ x, y, width: w, height: h, zIndex: z }}
             className={clsx(
-              "absolute overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg will-change-transform",
+              'absolute overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg will-change-transform',
               className
             )}
             // entry/exit polish
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96, y: -12, filter: "blur(1px)" }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
+            exit={{ opacity: 0, scale: 0.96, y: -12, filter: 'blur(1px)' }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
           >
             {children}
           </motion.div>

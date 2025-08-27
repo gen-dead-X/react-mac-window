@@ -1,11 +1,11 @@
-"use client";
-import { useRef, useState } from "react";
-import clsx from "clsx";
-import DesktopContext from "../context/desktopContext";
+'use client';
+import clsx from 'clsx';
+import { useRef, useState } from 'react';
+import DesktopContext from '../context/desktopContext';
 
 export default function MacDesktop({
   children,
-  className = "relative h-screen w-screen bg-neutral-100",
+  className = 'relative h-screen w-screen bg-neutral-100',
   inset = 16,
 }: {
   children: React.ReactNode;

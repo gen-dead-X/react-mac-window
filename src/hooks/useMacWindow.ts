@@ -1,12 +1,12 @@
-"use client";
+'use client';
 import {
   animate,
   useDragControls,
   useMotionValue,
   useMotionValueEvent,
-} from "motion/react";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useDesktop } from "../context/desktopContext";
+} from 'motion/react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useDesktop } from '../context/desktopContext';
 
 export type Rect = { x: number; y: number; w: number; h: number };
 
@@ -14,19 +14,19 @@ export default function useMacWindow({
   containerRef: externalRef,
   initialRect = { x: 80, y: 80, w: 720, h: 460 },
   inset: insetProp,
-  spring = { type: "spring", bounce: 0.18, duration: 0.5 },
+  spring = { type: 'spring', bounce: 0.18, duration: 0.5 },
 }: {
   containerRef?: React.RefObject<HTMLDivElement | null>;
   initialRect?: Rect;
   inset?: number;
-  spring?: { type?: "spring"; bounce?: number; duration?: number };
+  spring?: { type?: 'spring'; bounce?: number; duration?: number };
 }) {
   const desktop = useDesktop();
   const containerRef = externalRef ?? desktop?.containerRef;
   const inset = insetProp ?? desktop?.inset ?? 16;
 
   if (!containerRef) {
-    throw new Error("No containerRef provided and no <MacDesktop> found.");
+    throw new Error('No containerRef provided and no <MacDesktop> found.');
   }
 
   const dragControls = useDragControls();
@@ -39,10 +39,10 @@ export default function useMacWindow({
     w: initialRect.w,
     h: initialRect.h,
   });
-  useMotionValueEvent(w, "change", (val) =>
+  useMotionValueEvent(w, 'change', (val) =>
     setWinSize((s) => (s.w === val ? s : { ...s, w: val }))
   );
-  useMotionValueEvent(h, "change", (val) =>
+  useMotionValueEvent(h, 'change', (val) =>
     setWinSize((s) => (s.h === val ? s : { ...s, h: val }))
   );
 

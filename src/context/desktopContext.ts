@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 export type DesktopCtx = {
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -10,7 +10,7 @@ const DesktopContext = createContext<DesktopCtx | null>(null);
 
 export const useDesktop = () => {
   const v = useContext(DesktopContext);
-  if (!v) throw new Error("MacDesktop missing. Wrap windows in <MacDesktop>.");
+  if (!v) throw new Error('MacDesktop missing. Wrap windows in <MacDesktop>.');
   return v;
 };
 

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { IoMdClose } from "react-icons/io";
-import { FiMinimize2, FiMaximize2 } from "react-icons/fi";
-import { useMacWindowContext } from "../context/macWindowContext";
+import * as React from 'react';
+import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
+import { IoMdClose } from 'react-icons/io';
+import { useMacWindowContext } from '../context/macWindowContext';
 
 const BTN =
-  "text-white rounded-full p-1 hover:brightness-95 transition duration-200 cursor-pointer";
+  'text-white rounded-full p-1 hover:brightness-95 transition duration-200 cursor-pointer';
 
 type Props = {
   title?: string;
@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function MacTitleBar({
-  title = "Untitled",
+  title = 'Untitled',
   rightSlot,
   onClose,
   onMinimize,
@@ -26,11 +26,11 @@ export default function MacTitleBar({
 
   return (
     <div
-      className="h-10 bg-gray-100 flex items-center justify-between px-2 cursor-move select-none"
+      className="flex h-10 cursor-move items-center justify-between bg-gray-100 px-2 select-none"
       onPointerDown={(e) => {
         if (!isMaximized) dragControls.start(e);
       }}
-      style={{ touchAction: "none" }}
+      style={{ touchAction: 'none' }}
     >
       <div className="flex gap-1">
         <button
@@ -67,14 +67,14 @@ export default function MacTitleBar({
             e.stopPropagation();
             toggleMaximize();
           }}
-          aria-label={isMaximized ? "Restore" : "Maximize"}
-          title={isMaximized ? "Restore" : "Maximize"}
+          aria-label={isMaximized ? 'Restore' : 'Maximize'}
+          title={isMaximized ? 'Restore' : 'Maximize'}
         >
           <FiMaximize2 />
         </button>
       </div>
 
-      <div className="text-sm text-gray-600 pr-2 truncate">{title}</div>
+      <div className="truncate pr-2 text-sm text-gray-600">{title}</div>
       <div className="flex items-center gap-2">{rightSlot}</div>
     </div>
   );
